@@ -7,6 +7,7 @@ import org.tywrapstudios.hookt.dsl.HooktDsl
 import org.tywrapstudios.hookt.dsl.WebhookBuilder
 import kotlin.io.path.Path
 import kotlin.io.path.isRegularFile
+import kotlin.io.path.readLines
 
 val WebhookJson = Json {
     encodeDefaults = true
@@ -83,4 +84,48 @@ suspend inline fun execute(
         this.content = message
         this.block()
     }
+}
+
+internal class EnvNotFoundException(val name: String) :
+    Exception("The environment value $name could not be found. " +
+            "Please add it in a .env file or add it to your system environment values.")
+
+/**
+ * Gets and returns an environmental value from either a .env file or the system's
+ * global environment values, or null if it does not exist in either source.
+ */
+fun getEnvOrNull(name: String): String? {
+    val dotenv = Path(".env")
+    val map: MutableMap<String, String> = mutableMapOf()
+    if (dotenv.isRegularFile()) {
+        for (line in dotenv.readLines()) {
+            var actualLine = line.trimStart()
+            if (line.isEmpty() || line.startsWith("#")) continue
+            actualLine = actualLine.substringBefore("#")
+
+            val parts = actualLine
+                .split("=", limit = 2)
+            map[parts[0]] = parts[1]
+        }
+    }
+
+    return map[name] ?: System.getenv(name)
+}
+
+/**
+ * Gets and returns an environmental value from either a .env file or the system's
+ * global environment values.
+ * @throws EnvNotFoundException If the value could not be found in either source
+ */
+fun getEnv(name: String): String {
+    return getEnvOrNull(name) ?: throw EnvNotFoundException(name)
+}
+
+/**
+ * Gets and returns an environmental value from either a .env file or the system's
+ * global environment values, or the value that results from [default] if it does
+ * not exist in either source.
+ */
+fun getEnvOrElse(name: String, default: () -> String): String {
+    return getEnvOrNull(name) ?: default()
 }
