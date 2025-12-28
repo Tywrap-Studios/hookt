@@ -2,6 +2,7 @@ package org.tywrapstudios.hookt
 
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.*
 import org.tywrapstudios.hookt.dsl.EditMessageBuilder
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
@@ -19,9 +20,9 @@ class DiscordWebhook(val context: WebhookContext) {
      * @param thread The thread ID of a thread within a webhook's channel to send the message to
      */
     @HooktDsl
-    suspend inline fun execute(thread: ULong? = null, block: ExecuteBuilder.() -> Unit) {
+    suspend inline fun execute(thread: ULong? = null, block: ExecuteBuilder.() -> Unit): HttpResponse {
         val url = if (thread != null) "${context.url}?thread_id=$thread" else context.url
-        context.client.post(url) {
+        return context.client.post(url) {
             contentType(ContentType.Application.Json)
             setBody(ExecuteBuilder().apply(block).build().validate())
             expectSuccess = true
