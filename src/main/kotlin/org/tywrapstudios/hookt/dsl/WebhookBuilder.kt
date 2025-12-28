@@ -5,6 +5,7 @@ import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import org.tywrapstudios.hookt.WebhookContext
+import org.tywrapstudios.hookt.WebhookJson
 
 /**
  * Builder class for [WebhookContext]. Technically not a form, but
@@ -30,7 +31,9 @@ class WebhookBuilder : FormBuilder<WebhookContext> {
         url ?: throw IllegalStateException("URL for webhook is null"),
         client ?: HttpClient(CIO) {
             install(ContentNegotiation) {
-                json()
+                json(
+                    WebhookJson,
+                )
             }
         }
     )

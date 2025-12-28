@@ -25,15 +25,12 @@ class ExecuteBuilder : FormBuilder<ExecuteForm> {
     /**
      * [ExecuteForm.tts]
      */
-    var tts: Boolean = false
+    var tts: Boolean? = null
 
     /**
      * [ExecuteForm.embeds]
      */
-    var embeds: List<Embed> = mutableListOf()
-        set(value) {
-            field = value.toMutableList()
-        }
+    var embeds: List<Embed>? = null
 
     /**
      * [ExecuteForm.flags]
@@ -48,16 +45,16 @@ class ExecuteBuilder : FormBuilder<ExecuteForm> {
     /**
      * [ExecuteForm.appliedTags]
      */
-    var appliedTags: List<ULong> = mutableListOf()
-        set(value) {
-            field = value.toMutableList()
-        }
+    var appliedTags: List<ULong>? = null
 
     /**
      * DSL function to add an [Embed] to the [embeds] option.
      */
     @HooktDsl
     fun embed(block: EmbedBuilder.() -> Unit) {
+        if (this.embeds == null) {
+            this.embeds = mutableListOf()
+        }
         (this.embeds as MutableList<Embed>).add(EmbedBuilder().also(block).build())
     }
 
@@ -66,6 +63,9 @@ class ExecuteBuilder : FormBuilder<ExecuteForm> {
      * @param tag IDs of a tag to apply to the thread (requires the webhook channel to be a forum or media channel)
      */
     fun tag(tag: ULong) {
+        if (this.appliedTags == null) {
+            this.appliedTags = mutableListOf()
+        }
         (this.appliedTags as MutableList<ULong>).add(tag)
     }
 

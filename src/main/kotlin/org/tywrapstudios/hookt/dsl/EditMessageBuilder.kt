@@ -15,10 +15,7 @@ class EditMessageBuilder : FormBuilder<EditMessageForm> {
     /**
      * [EditMessageForm.embeds]
      */
-    var embeds: List<Embed> = mutableListOf()
-        set(value) {
-            field = value.toMutableList()
-        }
+    var embeds: List<Embed>? = null
 
     /**
      * [EditMessageForm.flags]
@@ -30,6 +27,9 @@ class EditMessageBuilder : FormBuilder<EditMessageForm> {
      */
     @HooktDsl
     fun embed(block: EmbedBuilder.() -> Unit) {
+        if (this.embeds == null) {
+            this.embeds = mutableListOf()
+        }
         (this.embeds as MutableList<Embed>).add(EmbedBuilder().also(block).build())
     }
 

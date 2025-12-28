@@ -1,9 +1,29 @@
 package org.tywrapstudios.hookt
 
 import io.ktor.client.statement.*
+import kotlinx.serialization.json.Json
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
 import org.tywrapstudios.hookt.dsl.HooktDsl
 import org.tywrapstudios.hookt.dsl.WebhookBuilder
+
+val WebhookJson = Json {
+    encodeDefaults = true
+    isLenient = true
+    allowSpecialFloatingPointValues = true
+    allowStructuredMapKeys = true
+    useArrayPolymorphism = false
+    explicitNulls = false
+}
+
+val TestJson = Json {
+    encodeDefaults = true
+    isLenient = true
+    allowSpecialFloatingPointValues = true
+    allowStructuredMapKeys = true
+    prettyPrint = true
+    useArrayPolymorphism = false
+    explicitNulls = false
+}
 
 /**
  * DSL function to create a new [DiscordWebhook] instance with a given [WebhookContext].

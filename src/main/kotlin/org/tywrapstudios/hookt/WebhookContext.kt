@@ -20,10 +20,10 @@ data class WebhookContext(
     /**
      * The ID of the webhook.
      */
-    val id = url.split("/").last().toULong()
+    val id = url.split("/")[url.split("/").lastIndex - 1].toULong()
 
     /**
      * The token that authenticates the webhook.
      */
-    val token = url.split("/")[url.split("/").lastIndex - 1]
+    val token = url.split("/").last()
 }

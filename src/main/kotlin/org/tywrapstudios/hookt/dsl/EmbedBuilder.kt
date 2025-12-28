@@ -62,7 +62,11 @@ class EmbedBuilder : FormBuilder<Embed> {
      * Set [color] using a string HEX value.
      */
     fun hex(hex: String) {
-        this.color = Color(hex.hexToInt())
+        this.color = Color(hex
+            .replace("#", "")
+            .replace("0x", "")
+            .hexToInt()
+        )
     }
 
     /**
@@ -129,30 +133,34 @@ class EmbedBuilder : FormBuilder<Embed> {
     /**
      * [Embed.fields]
      */
-    var fields: List<Field> = mutableListOf()
-        set(value) {
-            field = value.toMutableList()
-        }
+    var fields: List<Field>? = null
 
     /**
      * DSL function to add a [Field] to the [fields] value.
      */
     @HooktDsl
     fun field(block: FieldBuilder.() -> Unit) {
+        if (this.fields == null) {
+            this.fields = mutableListOf()
+        }
         (this.fields as MutableList<Field>).add(FieldBuilder().also(block).build())
     }
 
-    override fun build(): Embed = Embed(
-        title,
-        description,
-        url,
-        timestamp.toString(),
-        color?.rgb,
-        footer,
-        image,
-        thumbnail,
-        video,
-        author,
-        fields
-    )
+    override fun build(): Embed {
+        val stamp: String? = if (timestamp == null) null else timestamp.toString()
+        val col = color?.rgb?.and(0xFFFFFF)
+        return Embed(
+            title,
+            description,
+            url,
+            stamp,
+            col,
+            footer,
+            image,
+            thumbnail,
+            video,
+            author,
+            fields
+        )
+    }
 }

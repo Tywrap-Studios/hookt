@@ -22,9 +22,10 @@ class DiscordWebhook(val context: WebhookContext) {
     @HooktDsl
     suspend inline fun execute(thread: ULong? = null, block: ExecuteBuilder.() -> Unit): HttpResponse {
         val url = if (thread != null) "${context.url}?thread_id=$thread" else context.url
+        println(TestJson.encodeToString(ExecuteBuilder().apply(block).build().validate()))
         return context.client.post(url) {
             contentType(ContentType.Application.Json)
-            setBody(ExecuteBuilder().apply(block).build().validate())
+            setBody((ExecuteBuilder().apply(block).build().validate()))
             expectSuccess = true
         }
     }

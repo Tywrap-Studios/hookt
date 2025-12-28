@@ -81,6 +81,7 @@ object Tests {
         println("End of blocking")
     }
 
+    @Test
     fun testSingleExecution() {
         runBlocking {
             val url = System.getenv("DISCORD_URL")
