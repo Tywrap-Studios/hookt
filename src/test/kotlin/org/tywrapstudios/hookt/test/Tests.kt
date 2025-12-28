@@ -2,7 +2,7 @@
 
 package org.tywrapstudios.hookt.test
 
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.tywrapstudios.hookt.Webhook
@@ -67,7 +67,7 @@ object Tests {
                 }
                 embed {
                     title = "I'm red-ish"
-                    rgb(234,15,15)
+                    rgb(234, 15, 15)
                 }
                 embed {
                     title = "I'm blue but with hex"

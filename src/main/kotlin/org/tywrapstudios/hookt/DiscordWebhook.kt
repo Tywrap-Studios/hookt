@@ -2,7 +2,7 @@ package org.tywrapstudios.hookt
 
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import org.tywrapstudios.hookt.dsl.EditMessageBuilder
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
