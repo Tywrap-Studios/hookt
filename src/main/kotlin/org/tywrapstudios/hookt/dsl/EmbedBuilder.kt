@@ -1,66 +1,143 @@
 package org.tywrapstudios.hookt.dsl
 
+import org.intellij.lang.annotations.Language
 import org.tywrapstudios.hookt.types.*
 import java.awt.Color
 import kotlin.time.Clock
 import kotlin.time.Instant
 
+/**
+ * Builder class for [Embed].
+ */
 class EmbedBuilder : FormBuilder<Embed> {
+    /**
+     * [Embed.title]
+     */
     var title: String? = null
+
+    /**
+     * [Embed.description]
+     */
     var description: String? = null
+
+    /**
+     * [Embed.url]
+     */
     var url: String? = null
 
+    /**
+     * [Embed.timestamp]
+     */
     var timestamp: Instant? = null
 
+    /**
+     * Set [timestamp] to [Clock.System.now].
+     */
     fun timestampNow() {
         this.timestamp = Clock.System.now()
     }
 
+    /**
+     * [Embed.color]
+     */
     var color: Color? = null
+
+    /**
+     * Set [color] using an RGB int.
+     */
     fun rgb(int: Int) {
         this.color = Color(int)
     }
 
+    /**
+     * Set [color] using RGB values.
+     * @param r The **red** value
+     * @param g The **green** value
+     * @param b The **blue** value
+     */
     fun rgb(r: Int, g: Int, b: Int) {
         this.color = Color(r, g, b)
     }
 
+    /**
+     * Set [color] using a string HEX value.
+     */
     fun hex(hex: String) {
         this.color = Color(hex.hexToInt())
     }
 
+    /**
+     * [Embed.footer]
+     */
     var footer: Footer? = null
+
+    /**
+     * Helper function to set the [footer].
+     */
     fun footer(text: String, iconUrl: String? = null, proxyIconUrl: String? = null) {
         this.footer = Footer(text, iconUrl, proxyIconUrl)
     }
 
+    /**
+     * [Embed.image]
+     */
     var image: Image? = null
+
+    /**
+     * Helper function to set the [image].
+     */
     fun image(url: String, proxyUrl: String? = null, height: Int? = null, width: Int? = null) {
         this.image = Image(url, proxyUrl, height, width)
     }
 
+    /**
+     * [Embed.thumbnail]
+     */
     var thumbnail: Thumbnail? = null
+
+    /**
+     * Helper function to set the [thumbnail].
+     */
     fun thumbnail(url: String, proxyUrl: String? = null, height: Int? = null, width: Int? = null) {
         this.thumbnail = Thumbnail(url, proxyUrl, height, width)
     }
 
+    /**
+     * [Embed.video]
+     */
     var video: Video? = null
+
+    /**
+     * Helper function to set the [video].
+     */
     fun video(url: String, proxyUrl: String? = null, height: Int? = null, width: Int? = null) {
         this.video = Video(url, proxyUrl, height, width)
     }
 
+    /**
+     * [Embed.author]
+     */
     var author: Author? = null
 
+    /**
+     * DSL function to set the [author] value.
+     */
     @HooktDsl
     fun author(block: AuthorBuilder.() -> Unit) {
         this.author = AuthorBuilder().also(block).build()
     }
 
+    /**
+     * [Embed.fields]
+     */
     var fields: List<Field> = mutableListOf()
         set(value) {
             field = value.toMutableList()
         }
 
+    /**
+     * DSL function to add a [Field] to the [fields] value.
+     */
     @HooktDsl
     fun field(block: FieldBuilder.() -> Unit) {
         (this.fields as MutableList<Field>).add(FieldBuilder().also(block).build())
