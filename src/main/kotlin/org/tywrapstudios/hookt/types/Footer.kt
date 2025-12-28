@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
  * [Embed Footer Structure](https://discord.com/developers/docs/resources/message#embed-object-embed-footer-structure)
  * .
  *
- * @param text The text of this footer
+ * @param text The text of this footer (max 2048 characters)
  * @param iconUrl URL of the footer's icon (only supports http(s) and attachments)
  * @param proxyIconUrl A proxied url of the footer's icon
  *

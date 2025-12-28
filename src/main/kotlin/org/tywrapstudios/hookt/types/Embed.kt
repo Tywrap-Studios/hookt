@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
  * [Embed Object](https://discord.com/developers/docs/resources/message#embed-object)
  * .
  *
- * @param title The title of the embed
- * @param description The description (content) of the embed
- * @param url URL of the embed (TODO)
+ * @param title The title of the embed (max 256 characters)
+ * @param description The description (content) of the embed (max 4096 characters)
+ * @param url URL of the embed
  * @param timestamp ISO8601 formatted string timestamp, can be got
  * from [kotlin.time.Instant.toString]
  * @param color An RGB int
@@ -18,7 +18,7 @@ import kotlinx.serialization.Serializable
  * @param thumbnail A [Thumbnail] object
  * @param video A [Video] object
  * @param author An [Author] object
- * @param fields A list containing [Field] objects
+ * @param fields A list containing [Field] objects (max 25 objects)
  */
 @Serializable
 data class Embed(
