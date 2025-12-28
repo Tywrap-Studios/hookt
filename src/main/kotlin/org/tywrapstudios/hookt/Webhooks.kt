@@ -5,6 +5,8 @@ import kotlinx.serialization.json.Json
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
 import org.tywrapstudios.hookt.dsl.HooktDsl
 import org.tywrapstudios.hookt.dsl.WebhookBuilder
+import kotlin.io.path.Path
+import kotlin.io.path.isRegularFile
 
 val WebhookJson = Json {
     encodeDefaults = true
