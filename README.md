@@ -1,5 +1,5 @@
 # hookt
-A simple DSL wrapper to interact with Discord webhooks.
+A simple DSL wrapper to interact with Discord webhooks in Kotlin.
 
 ## Usage
 You can create a new `DiscordWebhook` instance in the following way:
