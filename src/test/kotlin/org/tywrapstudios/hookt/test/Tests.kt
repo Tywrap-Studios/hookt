@@ -7,6 +7,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.tywrapstudios.hookt.Webhook
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
+import org.tywrapstudios.hookt.execute
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -78,5 +79,17 @@ object Tests {
             println("Do not forget to check Discord!")
         }
         println("End of blocking")
+    }
+
+    fun testSingleExecution() {
+        runBlocking {
+            val url = System.getenv("DISCORD_URL")
+            val result = execute(url, "Hello!") {
+                embed {
+                    title = "I am an embed!"
+                }
+            }.second
+            assertEquals(HttpStatusCode.OK, result.status)
+        }
     }
 }
