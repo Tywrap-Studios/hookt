@@ -21,11 +21,23 @@ class DiscordWebhook(val context: WebhookContext) {
      */
     @HooktDsl
     suspend inline fun execute(thread: ULong? = null, block: ExecuteBuilder.() -> Unit): HttpResponse {
-        val url = if (thread != null) "${context.url}?thread_id=$thread" else context.url
-        println(TestJson.encodeToString(ExecuteBuilder().apply(block).build().validate()))
+        var url = context.url
+        val form = ExecuteBuilder().apply(block).build().validate()
+        val queries = mutableListOf<String>()
+        if (thread != null) {
+            queries.add("thread=$thread")
+        }
+        if (form.components?.isNotEmpty() == true) {
+            queries.add("with_components=true")
+        }
+        if (queries.isNotEmpty()) {
+            url += "?${queries.joinToString("&")}"
+        }
+        println(TestJson.encodeToString(form))
+        println(url)
         return context.client.post(url) {
             contentType(ContentType.Application.Json)
-            setBody((ExecuteBuilder().apply(block).build().validate()))
+            setBody(form)
             expectSuccess = true
         }
     }

@@ -13,6 +13,12 @@ import org.tywrapstudios.hookt.execute
 import org.tywrapstudios.hookt.getEnv
 import org.tywrapstudios.hookt.getEnvOrElse
 import org.tywrapstudios.hookt.getEnvOrNull
+import org.tywrapstudios.hookt.types.components.ContainerComponent
+import org.tywrapstudios.hookt.types.components.SectionComponent
+import org.tywrapstudios.hookt.types.components.SeparatorComponent
+import org.tywrapstudios.hookt.types.components.TextDisplayComponent
+import org.tywrapstudios.hookt.types.components.ThumbnailComponent
+import org.tywrapstudios.hookt.types.components.data.UnfurledMediaItem
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -123,5 +129,51 @@ object Tests {
         assertEquals("world", val4)
         assertEquals("world!", val5)
         assertNotEquals("world", val5)
+    }
+
+    @Test
+    fun testComponents() {
+        runBlocking {
+            val url = getEnv("DISCORD_URL")
+            val result = execute(url) {
+                component<SectionComponent> {
+                    addComponent<TextDisplayComponent> {
+                        content = "# Hello!"
+                    }
+                    addComponent<TextDisplayComponent> {
+                        content = "I am a text display"
+                    }
+                    addComponent<TextDisplayComponent> {
+                        content = "-# I should *WORK*"
+                    }
+                    addAccessory<ThumbnailComponent> {
+                        media = UnfurledMediaItem("https://cdn.discordapp.com/attachments/1249069998148812930/1249085058682458173/green_mc_mod_badge.png?ex=69542a1c&is=6952d89c&hm=d7c4850b4b98d7079b23dd93ca999e76b22ec1739eeac381b21a6c94fa061e58")
+                    }
+                }
+                component<ContainerComponent> {
+                    addComponent<TextDisplayComponent> {
+                        content = "yeah in container"
+                    }
+                    addComponent<SeparatorComponent> {
+                        divider = true
+                    }
+                    addComponent<TextDisplayComponent> {
+                        content = "yeah in container"
+                    }
+                    addComponent<SeparatorComponent> {
+                        divider = false
+                    }
+                    addComponent<TextDisplayComponent> {
+                        content = "yeah in container"
+                    }
+                    addComponent<SeparatorComponent> {
+                        spacing = 2
+                    }
+                    hex("#32a852")
+                    spoiler = true
+                }
+            }.second
+            assertEquals(HttpStatusCode.NoContent, result.status)
+        }
     }
 }

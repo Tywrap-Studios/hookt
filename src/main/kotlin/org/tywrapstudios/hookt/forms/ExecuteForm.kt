@@ -3,6 +3,7 @@ package org.tywrapstudios.hookt.forms
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.tywrapstudios.hookt.types.Embed
+import org.tywrapstudios.hookt.types.components.data.ComponentData
 
 /**
  * Serializable form body to execute a webhook and send a message.
@@ -18,6 +19,9 @@ import org.tywrapstudios.hookt.types.Embed
  * @param avatarUrl The custom avatar URL to give the webhook for this message
  * @param tts Whether this message is Text-to-speech
  * @param embeds A list containing [Embed] objects (max 10 objects)
+ * @param components A list containing [ComponentData] for
+ * [components](https://discord.com/developers/docs/components/reference).
+ * Remember you need to pass the `IS_COMPONENTS_V2` flag!
  * @param flags [Message flags](https://discord.com/developers/docs/resources/message#message-object-message-flags)
  * combined as a [Bit Field](https://en.wikipedia.org/wiki/Bit_field)
  * into an [Int]
@@ -33,6 +37,7 @@ data class ExecuteForm(
     val avatarUrl: String?,
     val tts: Boolean?,
     val embeds: List<Embed>?,
+    val components: List<ComponentData>?,
     val flags: Int?,
     @SerialName("thread_name")
     val threadName: String?,
@@ -41,14 +46,14 @@ data class ExecuteForm(
 ) {
     /**
      * Validates whether this object can be used as a form body, most notably
-     * checking if a value for **at least one of** content or embeds has been passed, otherwise,
-     * returns `this` instance.
+     * checking if a value for **at least one of** content, embeds or components
+     * has been passed, otherwise, returns `this` instance.
      *
      * @throws IllegalStateException When the instance does not contain at least one of content or embeds
      */
     fun validate(): ExecuteForm {
-        if (content == null && embeds.isNullOrEmpty()) {
-            throw IllegalStateException("Either content or embeds must be set for webhook execution, but they're both null or empty")
+        if (content == null && embeds.isNullOrEmpty() && components.isNullOrEmpty()) {
+            throw IllegalStateException("At least one of content, embeds or components must be set for webhook execution, but they're all null or empty")
         }
         return this
     }

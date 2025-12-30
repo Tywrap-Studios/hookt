@@ -1,14 +1,18 @@
 package org.tywrapstudios.hookt
 
 import io.ktor.client.statement.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.ClassDiscriminatorMode
 import kotlinx.serialization.json.Json
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
 import org.tywrapstudios.hookt.dsl.HooktDsl
 import org.tywrapstudios.hookt.dsl.WebhookBuilder
+import org.tywrapstudios.hookt.types.components.data.ComponentsSerializersModule
 import kotlin.io.path.Path
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.readLines
 
+@OptIn(ExperimentalSerializationApi::class)
 val WebhookJson = Json {
     encodeDefaults = true
     isLenient = true
@@ -16,8 +20,12 @@ val WebhookJson = Json {
     allowStructuredMapKeys = true
     useArrayPolymorphism = false
     explicitNulls = false
+    serializersModule = ComponentsSerializersModule
+    classDiscriminatorMode = ClassDiscriminatorMode.NONE
+    classDiscriminator = "KClassType"
 }
 
+@OptIn(ExperimentalSerializationApi::class)
 val TestJson = Json {
     encodeDefaults = true
     isLenient = true
@@ -26,6 +34,8 @@ val TestJson = Json {
     prettyPrint = true
     useArrayPolymorphism = false
     explicitNulls = false
+    serializersModule = ComponentsSerializersModule
+    classDiscriminator = "KClassType"
 }
 
 /**
