@@ -62,10 +62,11 @@ class EmbedBuilder : FormBuilder<Embed> {
      * Set [color] using a string HEX value.
      */
     fun hex(hex: String) {
-        this.color = Color(hex
-            .replace("#", "")
-            .replace("0x", "")
-            .hexToInt()
+        this.color = Color(
+            hex
+                .replace("#", "")
+                .replace("0x", "")
+                .hexToInt()
         )
     }
 

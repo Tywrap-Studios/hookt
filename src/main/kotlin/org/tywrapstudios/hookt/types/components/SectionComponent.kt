@@ -4,7 +4,6 @@ import org.tywrapstudios.hookt.dsl.HooktDsl
 import org.tywrapstudios.hookt.types.components.data.SectionAccessoryData
 import org.tywrapstudios.hookt.types.components.data.SectionChildData
 import org.tywrapstudios.hookt.types.components.data.SectionData
-import kotlin.jvm.java
 
 class SectionComponent : Component<SectionData>, ContainerChildComponent<SectionData> {
     override var type: ComponentType = ComponentType.Section

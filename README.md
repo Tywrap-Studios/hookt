@@ -1,25 +1,34 @@
 # hookt
+
 A simple DSL wrapper to interact with Discord webhooks in Kotlin.
 
 ## Usage
+
 You can create a new `DiscordWebhook` instance in the following way:
+
 ```kotlin
 fun main() {
     val url = env("WEBHOOK_URL")
     val webhook = Webhook(url)
 }
 ```
+
 ### Simple messages
+
 Sending simple messages can be done in one command:
+
 ```kotlin
 fun main() {
     /* Other Code */
     webhook.execute("Hello!")
 }
 ```
+
 ### Embeds
+
 However, you may want to use more than just plain messages, and send rich embeds instead.
 This is fully possible too using our built-in DSL functions:
+
 ```kotlin
 fun main() {
     /* Other Code */
@@ -56,8 +65,11 @@ with Javadocs, so finding out what something does and how to use it should be ea
 if you've got the sources jar. Happy webhooking!
 
 ## Gradle Setup
+
 Adding this to your Gradle project is easy:
+
 ### Groovy
+
 ```groovy
 repositories {
     maven {
@@ -70,7 +82,9 @@ dependencies {
     implementation "com.github.Tywrap-Studios:hookt:${project.hookt_version}"
 }
 ```
+
 ### Kotlin DSL
+
 ```kotlin
 repositories {
     maven("https://jitpack.io") {
@@ -82,14 +96,17 @@ dependencies {
     implementation("com.github.Tywrap-Studios:hookt:${project.hookt_version}")
 }
 ```
+
 Or using `libs.versions.toml`:
+
 ```toml
 [versions]
-hookt="<VERSION>"
+hookt = "<VERSION>"
 
 [libraries]
-hookt = { module = "com.github.Tywrap-Studios:hookt", version.ref = "hookt"}
+hookt = { module = "com.github.Tywrap-Studios:hookt", version.ref = "hookt" }
 ```
+
 ```kotlin
 /* repositories */
 dependencies {

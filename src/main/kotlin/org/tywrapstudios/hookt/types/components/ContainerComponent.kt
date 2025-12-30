@@ -10,7 +10,7 @@ class ContainerComponent : Component<ContainerData> {
     override var id: Int? = null
     val components: List<ContainerChildData> = mutableListOf()
     var accentColor: Color? = null
-    var spoiler : Boolean? = null
+    var spoiler: Boolean? = null
 
     @HooktDsl
     inline fun <reified T : ContainerChildComponent<*>> addComponent(block: T.() -> Unit) {
@@ -40,10 +40,11 @@ class ContainerComponent : Component<ContainerData> {
      * Set [accentColor] using a string HEX value.
      */
     fun hex(hex: String) {
-        this.accentColor = Color(hex
-            .replace("#", "")
-            .replace("0x", "")
-            .hexToInt()
+        this.accentColor = Color(
+            hex
+                .replace("#", "")
+                .replace("0x", "")
+                .hexToInt()
         )
     }
 

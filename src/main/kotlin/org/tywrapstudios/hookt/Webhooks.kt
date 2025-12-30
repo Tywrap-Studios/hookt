@@ -97,8 +97,10 @@ suspend inline fun execute(
 }
 
 internal class EnvNotFoundException(val name: String) :
-    Exception("The environment value $name could not be found. " +
-            "Please add it in a .env file or add it to your system environment values.")
+    Exception(
+        "The environment value $name could not be found. " +
+                "Please add it in a .env file or add it to your system environment values."
+    )
 
 /**
  * Gets and returns an environmental value from either a .env file or the system's

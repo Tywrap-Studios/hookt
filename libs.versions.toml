@@ -15,8 +15,8 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 [bundles]
 ktor = [
-  "ktor-client-core",
-  "ktor-client-cio",
-  "ktor-client-content-negotiation",
-  "ktor-serialization-kotlinx-json"
+    "ktor-client-core",
+    "ktor-client-cio",
+    "ktor-client-content-negotiation",
+    "ktor-serialization-kotlinx-json"
 ]

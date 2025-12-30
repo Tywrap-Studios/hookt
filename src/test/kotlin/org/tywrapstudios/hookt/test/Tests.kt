@@ -6,18 +6,9 @@ import io.ktor.http.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.assertThrows
-import org.tywrapstudios.hookt.EnvNotFoundException
-import org.tywrapstudios.hookt.Webhook
+import org.tywrapstudios.hookt.*
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
-import org.tywrapstudios.hookt.execute
-import org.tywrapstudios.hookt.getEnv
-import org.tywrapstudios.hookt.getEnvOrElse
-import org.tywrapstudios.hookt.getEnvOrNull
-import org.tywrapstudios.hookt.types.components.ContainerComponent
-import org.tywrapstudios.hookt.types.components.SectionComponent
-import org.tywrapstudios.hookt.types.components.SeparatorComponent
-import org.tywrapstudios.hookt.types.components.TextDisplayComponent
-import org.tywrapstudios.hookt.types.components.ThumbnailComponent
+import org.tywrapstudios.hookt.types.components.*
 import org.tywrapstudios.hookt.types.components.data.UnfurledMediaItem
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -147,7 +138,8 @@ object Tests {
                         content = "-# I should *WORK*"
                     }
                     addAccessory<ThumbnailComponent> {
-                        media = UnfurledMediaItem("https://cdn.discordapp.com/attachments/1249069998148812930/1249085058682458173/green_mc_mod_badge.png?ex=69542a1c&is=6952d89c&hm=d7c4850b4b98d7079b23dd93ca999e76b22ec1739eeac381b21a6c94fa061e58")
+                        media =
+                            UnfurledMediaItem("https://cdn.discordapp.com/attachments/1249069998148812930/1249085058682458173/green_mc_mod_badge.png?ex=69542a1c&is=6952d89c&hm=d7c4850b4b98d7079b23dd93ca999e76b22ec1739eeac381b21a6c94fa061e58")
                     }
                 }
                 component<ContainerComponent> {
