@@ -60,6 +60,77 @@ fun main() {
 }
 ```
 
+### Components V2
+
+Discord (somewhat recently) added new message components in Components V2, this library
+allows for the use of the ones available for non-app webhooks using the `component` DSL
+function:
+
+```kotlin
+fun main() {
+    /* Other Code */
+    webhook.execute {
+        component<SectionComponent> {
+            addComponent<TextDisplayComponent> {
+                content = "# Hello world!"
+            }
+            addComponent<TextDisplayComponent> {
+                content = "I am a text display"
+            }
+            addComponent<TextDisplayComponent> {
+                content = "-# I should *be tiny*"
+            }
+            addAccessory<ThumbnailComponent> {
+                media = UnfurledMediaItem("https://foxpictures.com/cute_fox")
+            }
+        }
+        component<SeparatorComponent> {
+            divider = true
+        }
+        component<TextDisplayComponent> {
+            content = "Have some more fox pictures!"
+        }
+        component<MediaGalleryComponent> {
+            item {
+                media = UnfurledMediaItem("https://foxpictures.com/fun_fox")
+            }
+            item {
+                media = UnfurledMediaItem("https://foxpictures.com/scary_fox")
+                description = "Very scary fox! Unspoiler if you dare..."
+                spoiler = true
+            }
+        }
+    }
+}
+```
+
+<details>
+    <summary>Available components</summary>
+
+```java
+Name(Discord type value)
+```
+
+```java
+Section(9)
+
+TextDisplay(10)
+
+Thumbnail(11)
+
+MediaGallery(12)
+
+File(13)
+
+Separator(14)
+
+Container(17)
+```
+
+</details>
+
+---
+
 And much more! All the functions, objects and classes in this package are documented
 with Javadocs, so finding out what something does and how to use it should be easy
 if you've got the sources jar. Happy webhooking!
