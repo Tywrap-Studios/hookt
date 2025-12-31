@@ -140,13 +140,15 @@ class ExecuteBuilder : FormBuilder<ExecuteForm> {
      * such as a description
      */
     @HooktDsl
-    fun file(file: File, autoId: Boolean = true, attachment: AttachmentBuilder.() -> Unit = {
-        id = files.size.toULong()
-        filename = "${file.name}"
-    }) {
+    fun file(
+        file: File, autoId: Boolean = true, attachment: AttachmentBuilder.() -> Unit = {
+            id = files.size.toULong()
+            filename = "${file.name}"
+        }
+    ) {
         // We do this to ensure the ID will match up with the ID
         // given to the multipart/form-data in the request process.
-        val idAdder: AttachmentBuilder.() -> Unit  = {
+        val idAdder: AttachmentBuilder.() -> Unit = {
             id = files.size.toULong()
         }
         if (this.attachments == null) {
@@ -179,11 +181,13 @@ class ExecuteBuilder : FormBuilder<ExecuteForm> {
      * such as a description
      */
     @HooktDsl
-    fun file(path: Path, autoId: Boolean = true,  attachment: AttachmentBuilder.() -> Unit = {
-        val file = path.toFile()
-        id = files.size.toULong()
-        filename = "${file.name}"
-    }) {
+    fun file(
+        path: Path, autoId: Boolean = true, attachment: AttachmentBuilder.() -> Unit = {
+            val file = path.toFile()
+            id = files.size.toULong()
+            filename = "${file.name}"
+        }
+    ) {
         file(path.toFile(), autoId, attachment)
     }
 
@@ -201,11 +205,13 @@ class ExecuteBuilder : FormBuilder<ExecuteForm> {
      * such as a description
      */
     @HooktDsl
-    fun file(path: String, autoId: Boolean = true,  attachment: AttachmentBuilder.() -> Unit = {
-        val file = Path(path).toFile()
-        id = files.size.toULong()
-        filename = "${file.name}"
-    }) {
+    fun file(
+        path: String, autoId: Boolean = true, attachment: AttachmentBuilder.() -> Unit = {
+            val file = Path(path).toFile()
+            id = files.size.toULong()
+            filename = "${file.name}"
+        }
+    ) {
         file(Path(path).toFile(), autoId, attachment)
     }
 

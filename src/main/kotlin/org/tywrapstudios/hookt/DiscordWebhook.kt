@@ -2,8 +2,7 @@ package org.tywrapstudios.hookt
 
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
-import io.ktor.client.request.forms.MultiPartFormDataContent
-import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import org.tywrapstudios.hookt.dsl.EditMessageBuilder
@@ -127,7 +126,11 @@ class DiscordWebhook(val context: WebhookContext) {
      * @param thread The ID of the thread that contains the message
      */
     @HooktDsl
-    suspend inline fun editMessage(message: ULong, thread: ULong? = null, block: EditMessageBuilder.() -> Unit): HttpResponse {
+    suspend inline fun editMessage(
+        message: ULong,
+        thread: ULong? = null,
+        block: EditMessageBuilder.() -> Unit
+    ): HttpResponse {
         val base = "${context.url}/messages/$message"
         val url = if (thread != null) "$base?thread_id=$thread" else base
         return context.client.patch(url) {
