@@ -8,7 +8,7 @@ You can create a new `DiscordWebhook` instance in the following way:
 
 ```kotlin
 fun main() {
-    val url = env("WEBHOOK_URL")
+    val url = getEnv("WEBHOOK_URL")
     val webhook = Webhook(url)
 }
 ```
