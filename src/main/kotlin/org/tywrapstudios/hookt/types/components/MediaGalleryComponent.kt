@@ -41,12 +41,12 @@ class MediaGalleryComponent : Component<MediaGalleryData>, ContainerChildCompone
          *
          * @see org.tywrapstudios.hookt.dsl.ExecuteBuilder.file
          */
-        val media: UnfurledMediaItem? = null
+        var media: UnfurledMediaItem? = null
 
         /**
          * [MediaGalleryItem.description]
          */
-        val description: String? = null
+        var description: String? = null
 
         /**
          * [MediaGalleryItem.spoiler]
@@ -54,7 +54,7 @@ class MediaGalleryComponent : Component<MediaGalleryData>, ContainerChildCompone
          * The spoiler blur will only be applied to this piece of media,
          * not to all the other ones in the gallery.
          */
-        val spoiler: Boolean? = null
+        var spoiler: Boolean? = null
 
         /**
          * Builds the options from the builder into [MediaGalleryItem]

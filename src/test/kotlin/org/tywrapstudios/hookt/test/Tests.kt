@@ -205,7 +205,45 @@ object Tests {
             assertEquals(2, form.files.size)
             assertEquals(2, form.attachments?.size)
             val result = hook.execute(block = execution)
-            assertEquals(HttpStatusCode.NoContent, result.status)
+            assertEquals(HttpStatusCode.OK, result.status)
+        }
+    }
+
+    @Test
+    fun testImagery() {
+        runBlocking {
+            val hook = Webhook(getEnv("DISCORD_URL"))
+            val execution: ExecuteBuilder.() -> Unit = {
+                file("src/test/resources/test-images/centred.png")
+                file("src/test/resources/test-images/offset.png")
+                file("src/test/resources/test-images/docs.png")
+                component<MediaGalleryComponent> {
+                    item {
+                        media = UnfurledMediaItem("attachment://centred.png")
+                    }
+                    item {
+                        media = UnfurledMediaItem("attachment://offset.png")
+                    }
+                    item {
+                        media = UnfurledMediaItem("attachment://docs.png")
+                    }
+                }
+                component<SectionComponent> {
+                    addComponent<TextDisplayComponent> {
+                        content = "# Our documentation!"
+                    }
+                    addComponent<TextDisplayComponent> {
+                        content = "I am a text display"
+                    }
+                    addAccessory<ThumbnailComponent> {
+                        media = UnfurledMediaItem("attachment://docs.png")
+                    }
+                }
+            }
+            val form = ExecuteBuilder().also(execution).build()
+            println(form.files.size)
+            val result = hook.execute(block = execution)
+            assertEquals(HttpStatusCode.OK, result.status)
         }
     }
 }
