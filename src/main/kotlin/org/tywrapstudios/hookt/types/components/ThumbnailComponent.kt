@@ -9,9 +9,7 @@ import org.tywrapstudios.hookt.types.components.data.UnfurledMediaItem
  * top right similar to embeds. It's currently the only available
  * [SectionAccessoryComponent], though this may change in the future.
  *
- * Uploading files is not supported at the moment, you will have to use `https://` in
- * order to display the media. As for `attachment://`, it
- * is sadly unusable. We're actively working on a file-uploading API.
+ * @see org.tywrapstudios.hookt.dsl.ExecuteBuilder.file
  */
 class ThumbnailComponent : Component<ThumbnailData>, SectionAccessoryComponent<ThumbnailData> {
     override var type: ComponentType = ComponentType.Thumbnail
@@ -20,9 +18,7 @@ class ThumbnailComponent : Component<ThumbnailData>, SectionAccessoryComponent<T
     /**
      * [ThumbnailData.media]
      *
-     * Uploading files is not supported at the moment, you will have to use `https://` in
-     * order to display the media. As for `attachment://`, it
-     * is sadly unusable. We're actively working on a file-uploading API.
+     * @see org.tywrapstudios.hookt.dsl.ExecuteBuilder.file
      */
     var media: UnfurledMediaItem? = null
 

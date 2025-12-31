@@ -12,10 +12,7 @@ import org.tywrapstudios.hookt.types.components.data.UnfurledMediaItem
  *
  * You can upload one piece of media too, and it will be displayed properly, even
  * in the middle of messages.
- *
- * Uploading files is not supported at the moment, you will have to use `https://` in
- * order to display the media. As for `attachment://`, it
- * is sadly unusable. We're actively working on a file-uploading API.
+ * @see org.tywrapstudios.hookt.dsl.ExecuteBuilder.file
  */
 class MediaGalleryComponent : Component<MediaGalleryData>, ContainerChildComponent<MediaGalleryData> {
     override var type: ComponentType = ComponentType.MediaGallery
@@ -41,6 +38,8 @@ class MediaGalleryComponent : Component<MediaGalleryData>, ContainerChildCompone
     inner class GalleryItemBuilder {
         /**
          * [MediaGalleryItem.media]
+         *
+         * @see org.tywrapstudios.hookt.dsl.ExecuteBuilder.file
          */
         val media: UnfurledMediaItem? = null
 

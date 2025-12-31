@@ -8,9 +8,10 @@ import org.tywrapstudios.hookt.types.components.data.UnfurledMediaItem
  * attachment (that does not have an embed like images), but it can be used and
  * ordered in the middle of the message instead of being forced to be at the bottom.
  *
- * Uploading files is not supported at the moment, and as this component's
- * unfurled media item [file] only accepts the `attachment://` protocol, it
- * is sadly unusable. We're actively working on a file-uploading API.
+ * This component's unfurled media item [file] only accepts the
+ * `attachment://` protocol, you can use the file DSL to upload it,
+ * use the file's name including the extension.
+ * @see org.tywrapstudios.hookt.dsl.ExecuteBuilder.file
  */
 class FileComponent : Component<FileComponentData> {
     override var type: ComponentType = ComponentType.File

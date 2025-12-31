@@ -67,9 +67,7 @@ class SectionComponent : Component<SectionData>, ContainerChildComponent<Section
      * This function may throw errors as it uses reflection
      * to build the component into [SectionAccessoryData].
      *
-     * Uploading files is not supported at the moment, you will have to use `https://` in
-     * order to display the media. As for `attachment://`, it
-     * is sadly unusable. We're actively working on a file-uploading API.
+     * @see org.tywrapstudios.hookt.dsl.ExecuteBuilder.file
      */
     @HooktDsl
     inline fun <reified T : SectionAccessoryComponent<*>> addAccessory(block: T.() -> Unit) {
