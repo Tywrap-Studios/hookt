@@ -81,7 +81,6 @@ object Tests {
             assertEquals(HttpStatusCode.NoContent, result.status)
             println("Do not forget to check Discord!")
         }
-        println("End of blocking")
     }
 
     @Test
@@ -165,6 +164,47 @@ object Tests {
                     spoiler = true
                 }
             }.second
+            assertEquals(HttpStatusCode.NoContent, result.status)
+        }
+    }
+
+    @Test
+    fun testFiles() {
+        runBlocking {
+            val hook = Webhook(getEnv("DISCORD_URL"))
+            val execution: ExecuteBuilder.() -> Unit = {
+                println(this.files.size)
+                file(".gitignore")
+                println(this.files.size)
+                component<TextDisplayComponent> {
+                    content = "I am a text display"
+                }
+                component<FileComponent> {
+                    file = UnfurledMediaItem("attachment://.gitignore")
+                }
+                component<TextDisplayComponent> {
+                    content = "I am a text display"
+                }
+                println(this.files.size)
+                file("LICENSE") {
+                    filename = "LICENSE"
+                    description = "The License of hookt"
+                }
+                println(this.files.size)
+                component<FileComponent> {
+                    file = UnfurledMediaItem("attachment://LICENSE")
+                }
+            }
+            val form = ExecuteBuilder().also(execution).build()
+            println(form.files.size)
+            assertEquals(0.toULong(), form.attachments?.get(0)?.id)
+            assertEquals(1.toULong(), form.attachments?.get(1)?.id)
+            assertEquals(".gitignore", form.attachments?.get(0)?.filename)
+            assertEquals("LICENSE", form.attachments?.get(1)?.filename)
+            assertEquals("The License of hookt", form.attachments?.get(1)?.description)
+            assertEquals(2, form.files.size)
+            assertEquals(2, form.attachments?.size)
+            val result = hook.execute(block=execution)
             assertEquals(HttpStatusCode.NoContent, result.status)
         }
     }

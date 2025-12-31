@@ -2,8 +2,12 @@ package org.tywrapstudios.hookt.forms
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import org.jetbrains.annotations.ApiStatus
+import org.tywrapstudios.hookt.types.AttachmentData
 import org.tywrapstudios.hookt.types.Embed
 import org.tywrapstudios.hookt.types.components.data.ComponentData
+import java.io.File
 
 /**
  * Serializable form body to execute a webhook and send a message.
@@ -22,6 +26,10 @@ import org.tywrapstudios.hookt.types.components.data.ComponentData
  * @param components A list containing [ComponentData] for
  * [components](https://discord.com/developers/docs/components/reference).
  * Remember you need to pass the `IS_COMPONENTS_V2` flag!
+ * @param attachments A list containing [AttachmentData] for
+ * files and attachments
+ * @param files This is an internal value to pass onto the
+ * request process in order to aid it in uploading the files
  * @param flags [Message flags](https://discord.com/developers/docs/resources/message#message-object-message-flags)
  * combined as a [Bit Field](https://en.wikipedia.org/wiki/Bit_field)
  * into an [Int]
@@ -38,6 +46,10 @@ data class ExecuteForm(
     val tts: Boolean?,
     val embeds: List<Embed>?,
     val components: List<ComponentData>?,
+    val attachments: List<AttachmentData>?,
+    @Transient
+    @ApiStatus.Internal
+    val files: List<File> = emptyList(),
     val flags: Int?,
     @SerialName("thread_name")
     val threadName: String?,

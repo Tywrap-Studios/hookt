@@ -2,12 +2,16 @@ package org.tywrapstudios.hookt
 
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import org.tywrapstudios.hookt.dsl.EditMessageBuilder
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
 import org.tywrapstudios.hookt.dsl.HooktDsl
 import org.tywrapstudios.hookt.dsl.WebhookModifyBuilder
+import org.tywrapstudios.hookt.forms.ExecuteForm
+import java.io.File
 
 /**
  * This class represents an instance of a Discord webhook containing a context. It has
@@ -35,12 +39,50 @@ class DiscordWebhook(val context: WebhookContext) {
         }
         println(TestJson.encodeToString(form))
         println(url)
+        val hasFiles = form.files.isNotEmpty()
         return context.client.post(url) {
-            contentType(ContentType.Application.Json)
-            setBody(form)
+            if (hasFiles) {
+                contentType(ContentType.MultiPart.FormData)
+                val files = form.files.map {
+                    FileContent(it, ContentType.fromFilePath(it.path).getOrElse(0) {
+                        ContentType.Application.OctetStream
+                    })
+                }
+                setBody(getMultipartFormData(form, files))
+            } else {
+                contentType(ContentType.Application.Json)
+                setBody(form)
+            }
             expectSuccess = true
         }
     }
+
+    fun getMultipartFormData(form: ExecuteForm, files: List<FileContent>): MultiPartFormDataContent {
+        return MultiPartFormDataContent(
+            formData {
+                append(
+                    "payload_json",
+                    WebhookJson.encodeToString(form),
+                    Headers.build {
+                        append(HttpHeaders.ContentType, ContentType.Application.Json)
+                    }
+                )
+
+                for (i in files.indices) {
+                    append(
+                        "files[$i]",
+                        files[i].file.readBytes(),
+                        Headers.build {
+                            append(HttpHeaders.ContentDisposition, "filename=\"${files[i].file.name}\"")
+                            append(HttpHeaders.ContentType, files[i].type)
+                        }
+                    )
+                }
+            }
+        )
+    }
+
+    data class FileContent(val file: File, val type: ContentType)
 
     /**
      * Helper DSL function to send a plain message to Discord via the webhook.
