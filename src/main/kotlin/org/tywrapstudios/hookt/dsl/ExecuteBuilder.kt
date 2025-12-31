@@ -89,6 +89,7 @@ class ExecuteBuilder : FormBuilder<ExecuteForm> {
     /**
      * Helper function to add a [MessageFlag] to this message.
      */
+    @HooktHelperDsl
     fun flag(flag: MessageFlag) {
         if (this.flags == null) {
             this.flags = 1 shl flag.shift
@@ -101,6 +102,7 @@ class ExecuteBuilder : FormBuilder<ExecuteForm> {
      * Helper function to add a tag to the [appliedTags] option.
      * @param tag IDs of a tag to apply to the thread (requires the webhook channel to be a forum or media channel)
      */
+    @HooktHelperDsl
     fun tag(tag: ULong) {
         if (this.appliedTags == null) {
             this.appliedTags = mutableListOf()

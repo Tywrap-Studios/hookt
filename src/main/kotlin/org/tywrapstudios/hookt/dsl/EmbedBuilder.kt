@@ -32,6 +32,7 @@ class EmbedBuilder : FormBuilder<Embed> {
     /**
      * Set [timestamp] to [Clock.System.now].
      */
+    @HooktHelperDsl
     fun timestampNow() {
         this.timestamp = Clock.System.now()
     }
@@ -44,6 +45,7 @@ class EmbedBuilder : FormBuilder<Embed> {
     /**
      * Set [color] using an RGB int.
      */
+    @HooktHelperDsl
     fun rgb(int: Int) {
         this.color = Color(int)
     }
@@ -54,6 +56,7 @@ class EmbedBuilder : FormBuilder<Embed> {
      * @param g The **green** value
      * @param b The **blue** value
      */
+    @HooktHelperDsl
     fun rgb(r: Int, g: Int, b: Int) {
         this.color = Color(r, g, b)
     }
@@ -61,6 +64,7 @@ class EmbedBuilder : FormBuilder<Embed> {
     /**
      * Set [color] using a string HEX value.
      */
+    @HooktHelperDsl
     fun hex(hex: String) {
         this.color = Color(
             hex
@@ -78,6 +82,7 @@ class EmbedBuilder : FormBuilder<Embed> {
     /**
      * Helper function to set the [footer].
      */
+    @HooktHelperDsl
     fun footer(text: String, iconUrl: String? = null, proxyIconUrl: String? = null) {
         this.footer = Footer(text, iconUrl, proxyIconUrl)
     }
@@ -90,6 +95,7 @@ class EmbedBuilder : FormBuilder<Embed> {
     /**
      * Helper function to set the [image].
      */
+    @HooktHelperDsl
     fun image(url: String, proxyUrl: String? = null, height: Int? = null, width: Int? = null) {
         this.image = Image(url, proxyUrl, height, width)
     }
@@ -102,6 +108,7 @@ class EmbedBuilder : FormBuilder<Embed> {
     /**
      * Helper function to set the [thumbnail].
      */
+    @HooktHelperDsl
     fun thumbnail(url: String, proxyUrl: String? = null, height: Int? = null, width: Int? = null) {
         this.thumbnail = Thumbnail(url, proxyUrl, height, width)
     }
@@ -114,6 +121,7 @@ class EmbedBuilder : FormBuilder<Embed> {
     /**
      * Helper function to set the [video].
      */
+    @HooktHelperDsl
     fun video(url: String, proxyUrl: String? = null, height: Int? = null, width: Int? = null) {
         this.video = Video(url, proxyUrl, height, width)
     }
