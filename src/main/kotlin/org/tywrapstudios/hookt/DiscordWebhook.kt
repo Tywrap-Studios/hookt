@@ -90,8 +90,8 @@ class DiscordWebhook(val context: WebhookContext) {
      * @param thread The ID of a thread within a webhook's channel to send the message to
      */
     @HooktDsl
-    suspend inline fun execute(message: String, thread: ULong? = null) {
-        execute(thread) {
+    suspend inline fun execute(message: String, thread: ULong? = null): HttpResponse {
+        return execute(thread) {
             content = message
         }
     }
@@ -101,8 +101,8 @@ class DiscordWebhook(val context: WebhookContext) {
      * @param reason The audit log reason for the changes
      */
     @HooktDsl
-    suspend inline fun modify(reason: String? = null, block: WebhookModifyBuilder.() -> Unit) {
-        context.client.patch(context.url) {
+    suspend inline fun modify(reason: String? = null, block: WebhookModifyBuilder.() -> Unit): HttpResponse {
+        return context.client.patch(context.url) {
             contentType(ContentType.Application.Json)
             if (reason != null) header("X-Audit-Log-Reason", reason)
             setBody(WebhookModifyBuilder().also(block).build())
@@ -114,8 +114,8 @@ class DiscordWebhook(val context: WebhookContext) {
      * Function to delete the webhook from the guild.
      * @param reason The audit log reason for the deletion
      */
-    suspend inline fun delete(reason: String? = null) {
-        context.client.delete(context.url) {
+    suspend inline fun delete(reason: String? = null): HttpResponse {
+        return context.client.delete(context.url) {
             if (reason != null) header("X-Audit-Log-Reason", reason)
             expectSuccess = true
         }
@@ -127,10 +127,10 @@ class DiscordWebhook(val context: WebhookContext) {
      * @param thread The ID of the thread that contains the message
      */
     @HooktDsl
-    suspend inline fun editMessage(message: ULong, thread: ULong? = null, block: EditMessageBuilder.() -> Unit) {
+    suspend inline fun editMessage(message: ULong, thread: ULong? = null, block: EditMessageBuilder.() -> Unit): HttpResponse {
         val base = "${context.url}/messages/$message"
         val url = if (thread != null) "$base?thread_id=$thread" else base
-        context.client.patch(url) {
+        return context.client.patch(url) {
             contentType(ContentType.Application.Json)
             setBody(EditMessageBuilder().also(block).build())
         }
@@ -141,10 +141,11 @@ class DiscordWebhook(val context: WebhookContext) {
      * @param message The ID of the message
      * @param thread The ID of the thread that contains the message
      */
-    suspend inline fun deleteMessage(message: ULong, thread: ULong? = null) {
+    suspend inline fun deleteMessage(message: ULong, thread: ULong? = null): HttpResponse {
         val base = "${context.url}/messages/$message"
         val url = if (thread != null) "$base?thread_id=$thread" else base
-        context.client.delete(url)
-        // Don't expectSuccess because Discord returns 204 No Content instead
+        return context.client.delete(url) {
+            expectSuccess = true
+        }
     }
 }
