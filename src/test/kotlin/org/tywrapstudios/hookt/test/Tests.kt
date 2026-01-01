@@ -13,6 +13,7 @@ import org.tywrapstudios.hookt.types.components.data.UnfurledMediaItem
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
 
 object Tests {
     @Test
@@ -244,6 +245,17 @@ object Tests {
             println(form.files.size)
             val result = hook.execute(block = execution)
             assertEquals(HttpStatusCode.OK, result.second.status)
+        }
+    }
+
+    @Test
+    fun testDeletion() {
+        runBlocking {
+            val hook = Webhook(getEnv("DISCORD_URL"))
+            val message = hook.execute("Hello!").first
+            assertNotNull(message)
+            val result = hook.deleteMessage(message.id)
+            assertEquals(HttpStatusCode.NoContent, result.status)
         }
     }
 }
