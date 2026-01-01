@@ -78,7 +78,7 @@ object Tests {
                     hex("#596BECFF")
                 }
             }
-            assertEquals(HttpStatusCode.NoContent, result.status)
+            assertEquals(HttpStatusCode.NoContent, result.second.status)
             println("Do not forget to check Discord!")
         }
     }
@@ -92,7 +92,7 @@ object Tests {
                     title = "I am an embed!"
                 }
             }.second
-            assertEquals(HttpStatusCode.NoContent, result.status)
+            assertEquals(HttpStatusCode.NoContent, result.second.status)
         }
     }
 
@@ -164,7 +164,7 @@ object Tests {
                     spoiler = true
                 }
             }.second
-            assertEquals(HttpStatusCode.NoContent, result.status)
+            assertEquals(HttpStatusCode.NoContent, result.second.status)
         }
     }
 
@@ -205,7 +205,7 @@ object Tests {
             assertEquals(2, form.files.size)
             assertEquals(2, form.attachments?.size)
             val result = hook.execute(block = execution)
-            assertEquals(HttpStatusCode.OK, result.status)
+            assertEquals(HttpStatusCode.OK, result.second.status)
         }
     }
 
@@ -243,7 +243,7 @@ object Tests {
             val form = ExecuteBuilder().also(execution).build()
             println(form.files.size)
             val result = hook.execute(block = execution)
-            assertEquals(HttpStatusCode.OK, result.status)
+            assertEquals(HttpStatusCode.OK, result.second.status)
         }
     }
 }

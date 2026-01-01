@@ -1,5 +1,6 @@
 package org.tywrapstudios.hookt
 
+import io.ktor.client.call.body
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
@@ -10,6 +11,7 @@ import org.tywrapstudios.hookt.dsl.ExecuteBuilder
 import org.tywrapstudios.hookt.dsl.HooktDsl
 import org.tywrapstudios.hookt.dsl.WebhookModifyBuilder
 import org.tywrapstudios.hookt.forms.ExecuteForm
+import org.tywrapstudios.hookt.types.Message
 import java.io.File
 
 /**
@@ -21,14 +23,20 @@ class DiscordWebhook(val context: WebhookContext) {
     /**
      * DSL function to send a message to Discord via the webhook.
      * @param thread The thread ID of a thread within a webhook's channel to send the message to
+     * @param wait Whether to wait for the server's confirmation of the message, if set to
+     * true, the first part of the returned [Pair] **might** not be null, otherwise, it will
+     * always be null
      */
     @HooktDsl
-    suspend inline fun execute(thread: ULong? = null, block: ExecuteBuilder.() -> Unit): HttpResponse {
+    suspend inline fun execute(thread: ULong? = null, wait: Boolean = false, block: ExecuteBuilder.() -> Unit): Pair<Message?, HttpResponse> {
         var url = context.url
         val form = ExecuteBuilder().apply(block).build().validate()
         val queries = mutableListOf<String>()
         if (thread != null) {
             queries.add("thread=$thread")
+        }
+        if (wait) {
+            queries.add("wait=true")
         }
         if (form.components?.isNotEmpty() == true) {
             queries.add("with_components=true")
@@ -39,7 +47,7 @@ class DiscordWebhook(val context: WebhookContext) {
         println(TestJson.encodeToString(form))
         println(url)
         val hasFiles = form.files.isNotEmpty()
-        return context.client.post(url) {
+        val result = context.client.post(url) {
             if (hasFiles) {
                 contentType(ContentType.MultiPart.FormData)
                 val files = form.files.map {
@@ -54,6 +62,8 @@ class DiscordWebhook(val context: WebhookContext) {
             }
             expectSuccess = true
         }
+        val message = if (wait) result.body<Message>() else null
+        return message to result
     }
 
     fun getMultipartFormData(form: ExecuteForm, files: List<FileContent>): MultiPartFormDataContent {
@@ -87,10 +97,13 @@ class DiscordWebhook(val context: WebhookContext) {
      * Helper DSL function to send a plain message to Discord via the webhook.
      * @param message The plain content to send
      * @param thread The ID of a thread within a webhook's channel to send the message to
+     * @param wait Whether to wait for the server's confirmation of the message, if set to
+     * true, the first part of the returned [Pair] **might** not be null, otherwise, it will
+     * always be null
      */
     @HooktDsl
-    suspend inline fun execute(message: String, thread: ULong? = null): HttpResponse {
-        return execute(thread) {
+    suspend inline fun execute(message: String, thread: ULong? = null, wait: Boolean = false): Pair<Message?, HttpResponse> {
+        return execute(thread, wait) {
             content = message
         }
     }
@@ -118,6 +131,21 @@ class DiscordWebhook(val context: WebhookContext) {
             if (reason != null) header("X-Audit-Log-Reason", reason)
             expectSuccess = true
         }
+    }
+
+    /**
+     * Function to get a message previously sent by the webhook.
+     * @param message The ID of the message
+     * @param thread The ID of the thread that contains the message
+     */
+    suspend inline fun getMessage(message: ULong, thread: ULong? = null): Pair<Message, HttpResponse> {
+        val base = "${context.url}/messages/$message"
+        val url = if (thread != null) "$base?thread_id=$thread" else base
+        val result = context.client.get(url) {
+            expectSuccess = true
+        }
+        val message = result.body<Message>()
+        return message to result
     }
 
     /**

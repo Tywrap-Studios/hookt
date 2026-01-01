@@ -7,6 +7,7 @@ import kotlinx.serialization.json.Json
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
 import org.tywrapstudios.hookt.dsl.HooktDsl
 import org.tywrapstudios.hookt.dsl.WebhookBuilder
+import org.tywrapstudios.hookt.types.Message
 import org.tywrapstudios.hookt.types.components.data.ComponentsSerializersModule
 import kotlin.io.path.Path
 import kotlin.io.path.isRegularFile
@@ -68,28 +69,29 @@ inline fun Webhook(url: String, block: WebhookBuilder.() -> Unit = {}): DiscordW
 /**
  * DSL function to quickly execute for a URL. Use this if you don't want
  * or need, or can't make a "permanent" [DiscordWebhook] instance yourself.
- * @return A [Pair] containing the used webhook and the [HttpResponse] from the execution
+ * @return A [Pair] containing the used webhook and
+ * another [Pair] containing the returned [Message] and [HttpResponse]
  */
 @HooktDsl
-suspend inline fun execute(url: String, block: ExecuteBuilder.() -> Unit): Pair<DiscordWebhook, HttpResponse> {
+suspend inline fun execute(url: String, block: ExecuteBuilder.() -> Unit): Pair<DiscordWebhook, Pair<Message?, HttpResponse>> {
     val webhook = Webhook(url)
-    val response = webhook.execute(block = block)
-    return webhook to response
+    val result = webhook.execute(wait = true, block = block)
+    return webhook to result
 }
 
 /**
  * DSL function to quickly send a simple message to a URL. Use this if you
  * don't want or need, or can't make a "permanent" [DiscordWebhook] instance
  * yourself.
- * @return A [Pair] containing the used webhook and the [HttpResponse] from
- * the execution
+ * @return A [Pair] containing the used webhook and
+ * another [Pair] containing the returned [Message] and [HttpResponse]
  */
 @HooktDsl
 suspend inline fun execute(
     url: String,
     message: String,
     block: ExecuteBuilder.() -> Unit = {}
-): Pair<DiscordWebhook, HttpResponse> {
+): Pair<DiscordWebhook, Pair<Message?, HttpResponse>> {
     return execute(url) {
         this.content = message
         this.block()
@@ -138,6 +140,6 @@ fun getEnv(name: String): String {
  * global environment values, or the value that results from [default] if it does
  * not exist in either source.
  */
-fun getEnvOrElse(name: String, default: () -> String): String {
-    return getEnvOrNull(name) ?: default()
+fun getEnvOrElse(name: String, default: (name: String) -> String): String {
+    return getEnvOrNull(name) ?: default(name)
 }
