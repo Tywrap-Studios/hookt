@@ -92,7 +92,7 @@ object Tests {
                     title = "I am an embed!"
                 }
             }.second
-            assertEquals(HttpStatusCode.NoContent, result.second.status)
+            assertEquals(HttpStatusCode.OK, result.second.status)
         }
     }
 
@@ -164,7 +164,7 @@ object Tests {
                     spoiler = true
                 }
             }.second
-            assertEquals(HttpStatusCode.NoContent, result.second.status)
+            assertEquals(HttpStatusCode.OK, result.second.status)
         }
     }
 

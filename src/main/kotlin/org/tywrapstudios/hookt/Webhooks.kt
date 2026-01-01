@@ -24,6 +24,7 @@ val WebhookJson = Json {
     serializersModule = ComponentsSerializersModule
     classDiscriminatorMode = ClassDiscriminatorMode.NONE
     classDiscriminator = "KClassType"
+    ignoreUnknownKeys = true
 }
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -37,6 +38,7 @@ val TestJson = Json {
     explicitNulls = false
     serializersModule = ComponentsSerializersModule
     classDiscriminator = "KClassType"
+    ignoreUnknownKeys = true
 }
 
 /**

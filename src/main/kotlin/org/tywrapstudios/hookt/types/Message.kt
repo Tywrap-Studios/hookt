@@ -2,7 +2,6 @@ package org.tywrapstudios.hookt.types
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.tywrapstudios.hookt.types.components.data.ComponentData
 
 @Serializable
 data class Message(
@@ -29,7 +28,6 @@ data class Message(
     val messageReference: MessageReference?,
     @SerialName("referenced_message")
     val referencedMessage: Message?,
-    val components: List<ComponentData>?,
     val stickerItems: List<StickerItem>?,
     val position: Int?,
 )
