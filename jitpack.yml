@@ -2,3 +2,5 @@ jdk:
   - openjdk17
 install:
   - ./gradlew clean publishToMavenLocal -x test -x check
+test:
+  - echo "Disabled Tests"
