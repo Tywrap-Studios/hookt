@@ -1,4 +1,4 @@
 jdk:
   - openjdk17
 install:
-  - ./gradlew build -x test
+  - ./gradlew build -xtest
