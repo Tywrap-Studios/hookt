@@ -1,4 +1,4 @@
 jdk:
   - openjdk17
 install:
-  - ./gradlew clean install -xtest
+  - ./gradlew clean publishToMavenLocal -x test -x check
