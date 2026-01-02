@@ -252,7 +252,7 @@ object Tests {
     fun testDeletion() {
         runBlocking {
             val hook = Webhook(getEnv("DISCORD_URL"))
-            val message = hook.execute("Hello!").first
+            val message = hook.execute("Hello!", wait = true).first
             assertNotNull(message)
             val result = hook.deleteMessage(message.id)
             assertEquals(HttpStatusCode.NoContent, result.status)
