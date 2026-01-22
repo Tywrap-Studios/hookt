@@ -168,7 +168,12 @@ dependencies {
 }
 ```
 
-Or using `libs.versions.toml`:
+Make a value in your `gradle.properties` called `hookt_version` and set it to the version you want to use:
+```properties
+hookt_version=<VERSION>
+```
+
+Alternatively, you can use a version catalogue with `libs.versions.toml`:
 
 ```toml
 [versions]
@@ -184,3 +189,18 @@ dependencies {
     implementation(libs.hookt)
 }
 ```
+
+For accurate version "numbers" to use, check the official [GitHub releases](https://github.com/Tywrap-Studios/hookt/releases), as they explicitly show what the actual
+version number is for the builds. (JitPack messes up the builds, and as such, we are required to instead use the commit hash from JitCI).
+
+Alongside this, you may need to add some or all of the following Ktor modules:
+```
+io.ktor:ktor-client-core
+io.ktor:ktor-client-cio
+io.ktor:ktor-client-content-negotiation
+io.ktor:ktor-serialization-kotlinx-json
+```
+and `kotlinx.coroutines`.
+
+View the respective documentations: [Ktor](https://ktor.io/docs/client-create-new-application.html#add-dependencies)/[KotlinX](https://github.com/Kotlin/kotlinx.coroutines?tab=readme-ov-file#gradle).
+
