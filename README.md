@@ -190,8 +190,9 @@ dependencies {
 }
 ```
 
-For accurate version "numbers" to use, check the official [GitHub releases](https://github.com/Tywrap-Studios/hookt/releases), as they explicitly show what the actual
-version number is for the builds. (JitPack messes up the builds, and as such, we are required to instead use the commit hash from JitCI).
+> [!IMPORTANT]
+> For accurate version "numbers" to use, check the official [GitHub releases](https://github.com/Tywrap-Studios/hookt/releases), as they explicitly show what the actual
+> version number is for the builds. (JitPack messes up the builds, and as such, we are required to instead use the commit hash from JitCI).
 
 Alongside this, you may need to add some or all of the following Ktor modules:
 ```
