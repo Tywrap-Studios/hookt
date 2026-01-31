@@ -59,7 +59,9 @@ object Tests {
     fun testExecution() {
         runBlocking {
             val url = getEnv("DISCORD_URL")
-            val webhook = Webhook(url)
+            val webhook = Webhook(url) {
+                verbose = true
+            }
             val result = webhook.execute {
                 content = "Hello!"
                 embed {
@@ -172,7 +174,9 @@ object Tests {
     @Test
     fun testFiles() {
         runBlocking {
-            val hook = Webhook(getEnv("DISCORD_URL"))
+            val hook = Webhook(getEnv("DISCORD_URL")) {
+                verbose = true
+            }
             val execution: ExecuteBuilder.() -> Unit = {
                 println(this.files.size)
                 file(".gitignore")
@@ -213,7 +217,9 @@ object Tests {
     @Test
     fun testImagery() {
         runBlocking {
-            val hook = Webhook(getEnv("DISCORD_URL"))
+            val hook = Webhook(getEnv("DISCORD_URL")) {
+                verbose = true
+            }
             val execution: ExecuteBuilder.() -> Unit = {
                 file("src/test/resources/test-images/centred.png")
                 file("src/test/resources/test-images/offset.png")
@@ -251,11 +257,23 @@ object Tests {
     @Test
     fun testDeletion() {
         runBlocking {
-            val hook = Webhook(getEnv("DISCORD_URL"))
+            val hook = Webhook(getEnv("DISCORD_URL")) {
+                verbose = true
+            }
             val message = hook.execute("Hello!", wait = true).first
             assertNotNull(message)
             val result = hook.deleteMessage(message.id)
             assertEquals(HttpStatusCode.NoContent, result.status)
+        }
+    }
+
+    @Test
+    fun testVerbose() {
+        runBlocking {
+            val hook = Webhook(getEnv("DISCORD_URL")) {
+                verbose = true
+            }
+            hook.execute("Verbose?")
         }
     }
 }

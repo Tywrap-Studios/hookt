@@ -12,10 +12,13 @@ import io.ktor.client.*
  *
  * @param url The URL of the webhook's endpoint
  * @param client A Ktor [HttpClient], needs `ContentNegotiation` with some `json()` config
+ * @param verbose Whether to output informational log texts related to the webhook (Note:
+ * this may include printing the webhook URL)
  */
 data class WebhookContext(
     val url: String,
-    val client: HttpClient
+    val client: HttpClient,
+    val verbose: Boolean = false,
 ) {
     /**
      * The ID of the webhook.

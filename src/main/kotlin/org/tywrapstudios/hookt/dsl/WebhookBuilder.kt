@@ -27,6 +27,11 @@ class WebhookBuilder : FormBuilder<WebhookContext> {
      */
     var client: HttpClient? = null
 
+    /**
+     * [WebhookContext.verbose]
+     */
+    var verbose: Boolean? = false
+
     override fun build(): WebhookContext = WebhookContext(
         url ?: throw IllegalStateException("URL for webhook is null"),
         client ?: HttpClient(CIO) {
@@ -35,6 +40,7 @@ class WebhookBuilder : FormBuilder<WebhookContext> {
                     WebhookJson,
                 )
             }
-        }
+        },
+        verbose ?: false,
     )
 }

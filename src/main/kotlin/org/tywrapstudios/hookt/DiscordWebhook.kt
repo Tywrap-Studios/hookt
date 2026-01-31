@@ -6,6 +6,8 @@ import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.tywrapstudios.hookt.dsl.EditMessageBuilder
 import org.tywrapstudios.hookt.dsl.ExecuteBuilder
 import org.tywrapstudios.hookt.dsl.HooktDsl
@@ -19,6 +21,14 @@ import java.io.File
  * (DSL) commands used to execute various requests using the Ktor [WebhookContext.client].
  */
 class DiscordWebhook(val context: WebhookContext) {
+
+    private val logger: Logger = LoggerFactory.getLogger(context.id.toString())
+
+    fun info(msg: String) {
+        if (context.verbose) {
+            logger.info(msg)
+        }
+    }
 
     /**
      * DSL function to send a message to Discord via the webhook.
@@ -34,21 +44,27 @@ class DiscordWebhook(val context: WebhookContext) {
         val queries = mutableListOf<String>()
         if (thread != null) {
             queries.add("thread=$thread")
+            info("Added \"thread\" query with value \"$thread\"")
         }
         if (wait) {
             queries.add("wait=true")
+            info("Added \"wait\" query with value \"true\"")
         }
         if (form.components?.isNotEmpty() == true) {
             queries.add("with_components=true")
+            info("Added \"with_components\" query with value \"true\"")
         }
         if (queries.isNotEmpty()) {
             url += "?${queries.joinToString("&")}"
         }
-        println(TestJson.encodeToString(form))
-        println(url)
+        if (context.verbose) {
+            info(TestJson.encodeToString(form))
+            info(url)
+        }
         val hasFiles = form.files.isNotEmpty()
         val result = context.client.post(url) {
             if (hasFiles) {
+                info("Message has files, changing type to multipart/form-data")
                 contentType(ContentType.MultiPart.FormData)
                 val files = form.files.map {
                     FileContent(it, ContentType.fromFilePath(it.path).getOrElse(0) {
