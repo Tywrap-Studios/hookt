@@ -205,3 +205,10 @@ and `kotlinx.coroutines`.
 
 View the respective documentations: [Ktor](https://ktor.io/docs/client-create-new-application.html#add-dependencies)/[KotlinX](https://github.com/Kotlin/kotlinx.coroutines?tab=readme-ov-file#gradle).
 
+> Why is my SLF4J crying blalsbaggds  
+Add an `exclude` clause to your implementation:
+```kotlin
+implementation("com.github.Tywrap-Studios:hookt:<VERSION>") {
+    exclude("org.slf4j", "slf4j-simple")
+}
+```
