@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.tywrapstudios"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -14,8 +14,8 @@ repositories {
 dependencies {
     implementation(libs.bundles.ktor)
     implementation(libs.slf4j.api)
-    implementation(libs.slf4j.simple)
 
+    testImplementation(libs.slf4j.simple)
     testImplementation(kotlin("test"))
 }
 
