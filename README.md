@@ -144,13 +144,13 @@ Adding this to your Gradle project is easy:
 ```groovy
 repositories {
     maven {
-        name = "JitPack"
-        url = "https://jitpack.io"
+        name = "GitHub Packages"
+        url = "https://maven.pkg.github.com/Tywrap-Studios/hookt"
     }
 }
 
 dependencies {
-    implementation "com.github.Tywrap-Studios:hookt:${project.hookt_version}"
+    implementation "org.tywrapstudios:hookt:${project.hookt_version}"
 }
 ```
 
@@ -158,13 +158,13 @@ dependencies {
 
 ```kotlin
 repositories {
-    maven("https://jitpack.io") {
-        name = "Jitpack"
+    maven("https://maven.pkg.github.com/Tywrap-Studios/hookt") {
+        name = "GitHub Packages"
     }
 }
 
 dependencies {
-    implementation("com.github.Tywrap-Studios:hookt:${project.hookt_version}")
+    implementation("org.tywrapstudios:hookt:${project.hookt_version}")
 }
 ```
 
@@ -180,7 +180,7 @@ Alternatively, you can use a version catalogue with `libs.versions.toml`:
 hookt = "<VERSION>"
 
 [libraries]
-hookt = { module = "com.github.Tywrap-Studios:hookt", version.ref = "hookt" }
+hookt = { module = "org.tywrapstudios:hookt", version.ref = "hookt" }
 ```
 
 ```kotlin
@@ -189,10 +189,6 @@ dependencies {
     implementation(libs.hookt)
 }
 ```
-
-> [!IMPORTANT]
-> For accurate version "numbers" to use, check the official [GitHub releases](https://github.com/Tywrap-Studios/hookt/releases), as they explicitly show what the actual
-> version number is for the builds. (JitPack messes up the builds, and as such, we are required to instead use the commit hash from JitCI).
 
 Alongside this, you may need to add some or all of the following Ktor modules:
 ```
@@ -204,11 +200,3 @@ io.ktor:ktor-serialization-kotlinx-json
 and `kotlinx.coroutines`.
 
 View the respective documentations: [Ktor](https://ktor.io/docs/client-create-new-application.html#add-dependencies)/[KotlinX](https://github.com/Kotlin/kotlinx.coroutines?tab=readme-ov-file#gradle).
-
-> Why is my SLF4J crying blalsbaggds  
-Add an `exclude` clause to your implementation:
-```kotlin
-implementation("com.github.Tywrap-Studios:hookt:<VERSION>") {
-    exclude("org.slf4j", "slf4j-simple")
-}
-```
