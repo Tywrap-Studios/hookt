@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dokka)
     `maven-publish`
 }
 
@@ -17,6 +18,10 @@ dependencies {
 
     testImplementation(libs.slf4j.simple)
     testImplementation(kotlin("test"))
+}
+
+java {
+    withSourcesJar()
 }
 
 kotlin {
