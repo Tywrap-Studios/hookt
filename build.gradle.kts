@@ -29,17 +29,33 @@ tasks.test {
 
 publishing {
     repositories {
+//        maven {
+//            name = "GitHubPackages"
+//            url = uri("https://maven.pkg.github.com/Tywrap-Studios/hookt")
+//            credentials {
+//                username = System.getenv("GITHUB_ACTOR")
+//                password = System.getenv("GITHUB_TOKEN")
+//            }
+//        }
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Tywrap-Studios/hookt")
+            name = "tywrapStudiosMvnReleases"
+            url = uri("https://maven.tiazzz.me/releases")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = System.getenv("TS_MAVEN_USERNAME")
+                password = System.getenv("TS_MAVEN_SECRET")
+            }
+        }
+        maven {
+            name = "tywrapStudiosMvnBackup"
+            url = uri("https://repo.repsy.io/itstiazzz/maven")
+            credentials {
+                username = System.getenv("REPSY_USERNAME")
+                password = System.getenv("REPSY_SECRET")
             }
         }
     }
     publications {
-        register<MavenPublication>("gpr") {
+        register<MavenPublication>("maven") {
             from(components["java"])
         }
     }

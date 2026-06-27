@@ -135,7 +135,7 @@ And much more! All the functions, objects and classes in this package are docume
 with Javadocs, so finding out what something does and how to use it should be easy
 if you've got the sources jar. Happy webhooking!
 
-## Gradle Setup ![Release](https://jitpack.io/v/Tywrap-Studios/hookt.svg)
+## Gradle Setup ![Release](https://maven.tiazzz.me/api/badge/latest/releases/org/tywrapstudios/hookt?color=40c14a&name=Maven&prefix=v)
 
 Adding this to your Gradle project is easy:
 

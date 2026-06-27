@@ -26,3 +26,7 @@ jobs:
         run: ./gradlew publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TS_MAVEN_USERNAME: ${{ secrets.TS_MAVEN_USERNAME }}
+          TS_MAVEN_SECRET: ${{ secrets.TS_MAVEN_SECRET }}
+          REPSY_USERNAME: ${{ secrets.REPSY_USERNAME }}
+          REPSY_SECRET: ${{ secrets.REPSY_SECRET }}
