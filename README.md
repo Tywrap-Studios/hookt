@@ -144,8 +144,8 @@ Adding this to your Gradle project is easy:
 ```groovy
 repositories {
     maven {
-        name = "GitHub Packages"
-        url = "https://maven.pkg.github.com/Tywrap-Studios/hookt"
+        name = "Tywrap Studios Releases"
+        url = "https://maven.tiazzz.me/releases"
     }
 }
 
@@ -158,8 +158,8 @@ dependencies {
 
 ```kotlin
 repositories {
-    maven("https://maven.pkg.github.com/Tywrap-Studios/hookt") {
-        name = "GitHub Packages"
+    maven("https://maven.tiazzz.me/releases") {
+        name = "Tywrap Studios Releases"
     }
 }
 
@@ -190,7 +190,13 @@ dependencies {
 }
 ```
 
-Alongside this, you may need to add some or all of the following Ktor modules:
+The Main Maven repository is self-hosted and may occasionally have an outage. Check our
+official [Status Page](https://status.tiazzz.me) to check. In the case it is down, there 
+is a backup repository available
+at `https://repo.repsy.io/itstiazzz/maven`. Simply replace the 
+URL in `repositories` with this one, or add it as a second repository.
+
+Lastly, you may need to add some or all of the following Ktor modules:
 ```
 io.ktor:ktor-client-core
 io.ktor:ktor-client-cio
